@@ -1,9 +1,10 @@
-#!/usr/bin/python
+#!/home/muzahid/linuxbrew/bin/python
 import pdb
 import sys
 import json
 import pprint
 import time
+import google
 from multiprocessing.dummy import Pool as ThreadPool
 from apiclient.discovery import build
 from functools import partial
@@ -65,9 +66,15 @@ def outputResults(output_filename, paperList) :
 def main(argv) :
     print "Two parameters: ./pSearch.py namefile keywords";
     # Get configuration file
-    with open('config.json') as data_file:
-        config_data = json.load(data_file)
+    #with open('/home/muzahid/projects/code/custom_search/PaperSearch/config.json') as data_file:
+    #    config_data = json.load(data_file)
 
+    config_data = {
+    "type": "customsearch",
+    "version": "v1",
+    "developerKey": "AIzaSyDhETdVAVnuucoz41pgvct6EGkEdKA2pmI",
+    "customsearchID": "013317773812904460726:bdzgcfd4oq8"
+    }
     # Open input files
     namesFile = open(argv[1])
     keywords_input = open(argv[2])
@@ -79,7 +86,7 @@ def main(argv) :
     output_filename = "Results.txt"
 
     # Open google api service
-    service = build(config_data["searchApi"]["type"], config_data["searchApi"]["version"], developerKey=config_data["searchApi"]["developerKey"])
+    service = build(config_data["type"], config_data["version"], developerKey=config_data["developerKey"])
 
     # Get keywords from input file into a resuable array
     for word in keywords_input :
@@ -87,7 +94,7 @@ def main(argv) :
 
     # Call a google search for each name
     for name in namesFile:
-        paperList = queryGoogleApi(name, keywords, config_data["searchApi"]["customsearchID"], service)
+        paperList = queryGoogleApi(name, keywords, config_data["customsearchID"], service)
         time.sleep(0.5) # Allow only two request per second to avoid trottling
         # Output results
         outputResults(output_filename, paperList)
