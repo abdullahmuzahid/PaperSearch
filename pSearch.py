@@ -72,8 +72,8 @@ def main(argv) :
     config_data = {
     "type": "customsearch",
     "version": "v1",
-    "developerKey": "AIzaSyDhETdVAVnuucoz41pgvct6EGkEdKA2pmI",
-    "customsearchID": "013317773812904460726:bdzgcfd4oq8"
+    "developerKey": "",
+    "customsearchID": ""
     }
     # Open input files
     namesFile = open(argv[1])
